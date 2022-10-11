@@ -31,6 +31,7 @@ class UserRegistration(APIView):
                               f'url is http://127.0.0.1:8000/user/verify_token/{token}',
                       subject='Link for the registration', )
             return Response({"message": "CHECK EMAIL for verification"})
+
         except ValueError as e:
             logging.exception(e)
             return Response({"message": 'Invalid Input'}, status=status.HTTP_400_BAD_REQUEST)
@@ -46,16 +47,11 @@ class UserRegistration(APIView):
 
 class LoginView(APIView):
     """
-     This api is for userlogin
+    This class used to login the user
     """
-    """
-        This class used to login the user
-        """
-
     def post(self, request):
         try:
             user = auth.authenticate(username=request.data.get('username'), password=request.data.get('password'))
-            print(user)
             if user:
                 token = EncodeDecode.encode_token(payload={'user_id': user.id})
                 return Response(
@@ -80,16 +76,9 @@ class VerifyToken(APIView):
     def get(self, request, token=None):
         try:
             d_token = EncodeDecode.decode_token(token)
-            # user_id = d_token.get("user_id")
-            # username = d_token.get("username")
-            # print(username)
-
             u_ = User.objects.filter(id=d_token.get("user_id"), username=d_token.get("username"))
-
-            print(u_)
             if u_ is not None:
                 u_.is_verified = True
-
                 return Response({"message": "Email Verified and Registered successfully"})
             return Response({"message": "Try Again......Wrong credentials"})
         except Exception as e:

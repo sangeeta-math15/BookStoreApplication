@@ -6,7 +6,7 @@ from django.db import models
 class Cart(models.Model):
     total_quantity = models.IntegerField(default=0)
     total_price = models.FloatField(default=0)
-    status = models.IntegerField(default=0)
+    status = models.BooleanField(default=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
 

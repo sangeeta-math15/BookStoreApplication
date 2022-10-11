@@ -10,6 +10,7 @@ from .models import User
 # Logger configuration
 logger = getLogger()
 
+
 class EncodeDecode:
     @staticmethod
     def encode_token(payload):
@@ -21,7 +22,6 @@ class EncodeDecode:
         try:
             if not isinstance(payload, dict):
                 return Response({"message": "payload should be dict"})
-
             encoded_token_id = jwt.encode(payload, key=settings.SECRET_KEY,
                                           algorithm='HS256')
             return encoded_token_id
@@ -38,9 +38,7 @@ class EncodeDecode:
         """
         try:
             decoded_token = jwt.decode(encoded_token_id, key=settings.SECRET_KEY, algorithms=["HS256"])
-            # print(decoded_token)
             return decoded_token
         except Exception as e:
             logger.exception(e)
             return Response({"message": str(e)})
-
