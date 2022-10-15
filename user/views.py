@@ -15,7 +15,6 @@ class UserRegistration(APIView):
     """
        This api is for registration of new user
     """
-
     def post(self, request):
         try:
             serializer = UserSerializer(data=request.data)
