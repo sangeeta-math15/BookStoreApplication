@@ -29,7 +29,8 @@ class UserRegistration(APIView):
                       message='Register yourself by complete this verification'
                               f'url is http://127.0.0.1:8000/user/verify_token/{token}',
                       subject='Link for the registration', )
-            return Response({"message": "CHECK EMAIL for verification"})
+
+            return Response({"message": "CHECK EMAIL for verification", "data": serializer.data},status=status.HTTP_202_ACCEPTED)
 
         except ValueError as e:
             logging.exception(e)
